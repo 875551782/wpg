@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wpg.dao.HardwareDao">
+
+	<select id="getAllHardware" resultType="com.wpg.pojo.Hardware">
+		select * from ${tableName}
+	</select>
+	
+	<delete id="deleteOneHardware" parameterType="java.util.ArrayList">
+		delete from ${tableName} where id in  
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+          	#{item}
+     	</foreach>
+	</delete>
+	
+	<select id="getOneHardware" resultType="com.wpg.pojo.Hardware">
+		select * from ${tableName} where id = #{id}
+	</select>
+	
+	<update id="updateOneHardware" parameterType="com.wpg.pojo.Hardware">
+		update ${tableName} set name=#{hardware.name},type=#{hardware.type},unit=#{hardware.unit},
+		num=#{hardware.num},brand=#{hardware.brand},mark=#{hardware.mark},price=#{hardware.price},
+		states=#{hardware.states},`desc`=#{hardware.desc}
+		where id = #{hardware.id}
+	</update>
+	
+	<insert id="addOneHardware">
+		insert into ${tableName} values(null,#{hardware.name},#{hardware.type},#{hardware.unit},
+		#{hardware.num},#{hardware.brand},#{hardware.mark},#{hardware.price},#{hardware.states},
+		#{hardware.desc})
+	</insert>
+	
+	<select id="getMaxMark" resultType="java.lang.Integer">
+		select max(mark) as maxMark from ${tableName} 
+	</select>
+</mapper>
